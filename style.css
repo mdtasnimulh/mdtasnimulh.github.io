@@ -34,6 +34,7 @@
 }
 
 header nav.main_nav div .logo {
+    font-family: "Bricolage Extra Bold";
     font-size: 30px;
     font-weight: 800;
     cursor: pointer;
@@ -57,6 +58,7 @@ nav.main_nav .nav_links {
     padding-bottom: 4px;
     text-decoration: none;
     color: black;
+    font-family: "IBM Plex Regular";
 }
 
 .nav_links a .underline {
@@ -72,6 +74,7 @@ nav.main_nav .nav_links {
 .nav_contact {
     width: 150px;
     height: 40px;
+    font-family: "IBM Plex Regular";
     font-size: 1rem;
     font-weight: bold;
     color: whitesmoke;
@@ -96,3 +99,30 @@ nav.main_nav .nav_links {
     100% { transform: scale(1); }
 }
 
+/* hero section design start from here */
+
+.hero_box {
+    width: 100%;
+    height: 85vh;
+    background-color: white;
+    position: absolute;
+}
+
+.hero_box .intro {
+    width: 75%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "IBM Plex Regular";
+    font-size: 22px;
+    position: absolute;
+    top: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hero_box .intro a {
+    text-decoration: none;
+    color: black;
+}
