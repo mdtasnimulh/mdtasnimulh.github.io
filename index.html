@@ -14,83 +14,95 @@
 </head>
 
 <body>
-    <header>
-        <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8 main_nav">
-            <div class="flex lg:flex-1">
-                <a href="#" class="-m-1.5 p-1.5 logo">
-                    <!-- <span class="sr-only">Tasnimul Hasan</span>
+    <div id="cursor"></div>
+
+    <div id="main">
+        <header class="main_header">
+            <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8 main_nav">
+                <div class="flex lg:flex-1">
+                    <a href="#" class="-m-1.5 p-1.5 logo">
+                        <!-- <span class="sr-only">Tasnimul Hasan</span>
                 <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="" class="h-8 w-auto" />
                  -->
-                    Tasnimul Hasan
-                </a>
-            </div>
+                        Tasnimul Hasan
+                    </a>
+                </div>
 
-            <div class="flex lg:hidden">
-                <button type="button" command="show-modal" commandfor="mobile-menu"
-                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-200">
-                    <span class="sr-only">Open main menu</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
-                        aria-hidden="true" class="size-6">
-                        <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </div>
+                <div class="flex lg:hidden">
+                    <button type="button" command="show-modal" commandfor="mobile-menu"
+                        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-200">
+                        <span class="sr-only">Open main menu</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+                            aria-hidden="true" class="size-6">
+                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
 
-            <div class="hidden lg:flex lg:gap-x-12 nav_links">
-                <a href="#" class="text-sm/6 font-semibold text-black">Home <span class="underline"></span></a>
-                <a href="#" class="text-sm/6 font-semibold text-black">About <span class="underline"></span></a>
-                <a href="#" class="text-sm/6 font-semibold text-black">Portfolio <span class="underline"></span></a>
-                <a href="#" class="text-sm/6 font-semibold text-black">Contact <span class="underline"></span></a>
-            </div>
+                <div class="hidden lg:flex lg:gap-x-12 nav_links">
+                    <a href="#" class="text-sm/6 font-semibold text-black">Home <span class="underline"></span></a>
+                    <a href="#" class="text-sm/6 font-semibold text-black">About <span class="underline"></span></a>
+                    <a href="#" class="text-sm/6 font-semibold text-black">Portfolio <span class="underline"></span></a>
+                    <a href="#" class="text-sm/6 font-semibold text-black">Contact <span class="underline"></span></a>
+                </div>
 
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="http://google.com" target="_blank" rel="noopener noreferrer" class="nav_contact">
-                    hello@Tasnimul
-                </a>
-            </div>
-        </nav>
+                <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                    <a href="http://google.com" target="_blank" rel="noopener noreferrer" class="nav_contact">
+                        hello@Tasnimul
+                    </a>
+                </div>
+            </nav>
 
-        <div class="hero_box">
-            <div class="intro">
-                <a href="#">
-                    👋, my name is Tasnimul Hasan and I am a App Developer
-                </a>
-            </div>
+            <div class="hero_box">
+                <div class="intro">
+                    <a href="#">
+                        👋, my name is Tasnimul Hasan and I am a App Developer
+                    </a>
+                </div>
 
-            <div class="passion_1">
-                <a href="#">Mobile APP</a>
-            </div>
-            <div class="passion_2">
-                <a href="#">Developer</a>
-            </div>
+                <div class="passion_1">
+                    <a href="#">Mobile APP</a>
+                </div>
+                <div class="passion_2">
+                    <a href="#">Developer</a>
+                </div>
 
-            <div class="herobox_image">
-                <img src="images/hero_image.png" alt="">
-            </div>
+                <div class="herobox_image">
+                    <img src="images/hero_image.png" alt="">
+                </div>
 
-            <div class="passion_1_outline">
-                <a href="#">Mobile APP</a>
-            </div>
-            <div class="passion_2_outline">
-                <a href="#">Developer</a>
-            </div>
+                <div class="passion_1_outline">
+                    <a href="#">Mobile APP</a>
+                </div>
+                <div class="passion_2_outline">
+                    <a href="#">Developer</a>
+                </div>
 
-            <div class="location_row">
-                <p class="location_name">
-                    Based in <span class="location_dhaka">Dhaka</span>, Bangladesh
-                </p>
-            </div>
+                <div class="location_row">
+                    <p class="location_name">
+                        Based in <span class="location_dhaka">Dhaka</span>, Bangladesh
+                    </p>
+                </div>
 
-            <div class="logo_row lg:gap-x-3">
-                <img class="social_logo" src="images/github.svg" alt="github">
-                <img class="social_logo" src="images/linkedin.svg" alt="linkedin">
-                <img class="social_logo" src="images/whatsapp.svg" alt="whatsapp">
-                <img class="social_logo" src="images/instagram.svg" alt="instagram">
-                <img class="social_logo" src="images/facebook.svg" alt="facebook">
+                <div class="logo_row lg:gap-x-3">
+                    <img class="social_logo" src="images/github.svg" alt="github">
+                    <img class="social_logo" src="images/linkedin.svg" alt="linkedin">
+                    <img class="social_logo" src="images/whatsapp.svg" alt="whatsapp">
+                    <img class="social_logo" src="images/instagram.svg" alt="instagram">
+                    <img class="social_logo" src="images/facebook.svg" alt="facebook">
+                </div>
             </div>
+        </header>
+
+        <div class="main_about_section">
+
         </div>
-    </header>
+
+        <div class="main_skill_section">
+
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"
         integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA=="
