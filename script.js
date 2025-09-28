@@ -83,6 +83,15 @@ function animateCursor() {
                 boxShadow: "0 0 15px rgba(0,0,0,0.3)",
                 duration: 0.3
             });
+        } else if (element.target.nodeType === Node.TEXT_NODE ||
+            (element.target.nodeType === Node.ELEMENT_NODE && element.target.textContent.trim() !== '')) {
+            gsap.to(cursor, {
+                scale: 0.25,
+                backgroundColor: "black",
+                border: "0px solid transparent",
+                boxShadow: "0 0 0px rgba(0,0,0,0)",
+                duration: 0.3
+            });
         } else {
             gsap.to(cursor, {
                 scale: 1,
