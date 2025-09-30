@@ -164,25 +164,73 @@ function codeSnippetDropdown() {
     });
 }
 
-function codeSnippetAnimation() {
-    const codeLines = document.querySelectorAll('.bg-gray-900 p');
+let currentSplit = null; // keep track of the active SplitText
 
-    gsap.from(codeLines, {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        stagger: 0.1, // Delay between each line's animation
-        ease: "power2.out",
-        onStart: () => {
-            // Ensure the code block is visible before animation starts
-            document.querySelector('.bg-gray-900').style.opacity = '1';
-        }
+function resetSplit() {
+    if (currentSplit) {
+        currentSplit.revert(); // put DOM back to original state
+        currentSplit = null;
+    }
+}
+
+function codeSnippetAnimation() {
+    resetSplit();
+    currentSplit = SplitText.create(".bg-gray-900 p", { type: "lines" });
+
+    gsap.from(currentSplit.lines, {
+        duration: 0.5,
+        y: 50,
+        autoAlpha: 0,
+        stagger: 0.2,
     });
 }
+
+function codeSnippetAnimationForCodeButton() {
+    const codeBtn = document.querySelector(".main_about_git_code_btn");
+
+    codeBtn.addEventListener("click", function () {
+        resetSplit();
+        currentSplit = SplitText.create(".bg-gray-900 p", { type: "words, chars" });
+
+        gsap.from(currentSplit.chars, {
+            duration: 0.1,
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.05
+        });
+    });
+}
+
+function codeSnippetAnimationForBlameButton() {
+    const blameBtn = document.querySelector(".main_about_git_blame_btn");
+
+    blameBtn.addEventListener("click", function () {
+        resetSplit();
+        currentSplit = SplitText.create(".bg-gray-900 p", { type: "words" }); // only words for blame
+
+        gsap.from(currentSplit.words, {
+            duration: 0.5,
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.05,
+            ease: "power3.out"
+        });
+    });
+}
+
+// slider for about section with tab buttons
+
+
+// Run automatically after DOM is ready
+window.addEventListener("DOMContentLoaded", () => {
+
+});
 
 navlinksAnimation();
 colorChangeHeroText();
 heroImageAnimation();
 animateCursor();
-codeSnippetDropdown()
+codeSnippetDropdown();
 codeSnippetAnimation();
+codeSnippetAnimationForCodeButton();
+codeSnippetAnimationForBlameButton();
