@@ -219,7 +219,98 @@ function codeSnippetAnimationForBlameButton() {
 }
 
 // slider for about section with tab buttons
+const SLIDE_COUNT = 4;
+const AUTO_SCROLL_INTERVAL = 4000; // 4 seconds
+const ANIMATION_DURATION = 0.8; // GSAP animation duration in seconds
 
+// DOM elements
+const track = document.getElementById('slider-track');
+const tabs = document.querySelectorAll('.tab-indicator');
+
+let currentSlide = 0;
+let autoScrollTimer;
+
+/**
+ * Updates the UI to reflect the current active slide (blurred tab).
+ */
+function updateTabs() {
+    tabs.forEach((tab, index) => {
+        const isActive = index === currentSlide;
+
+        // Inactive styles (Default blurred look)
+        tab.classList.toggle('bg-white/30', !isActive);
+        tab.classList.toggle('text-gray-800', !isActive);
+        tab.classList.toggle('border-white/50', !isActive);
+        tab.classList.toggle('shadow-none', !isActive);
+
+        // Active styles (More opaque background, primary text color, shadow, and specific border)
+        tab.classList.toggle('bg-white/90', isActive);
+        tab.classList.toggle('text-blue-700', isActive);
+        tab.classList.toggle('border-blue-400', isActive);
+        tab.classList.toggle('shadow-xl', isActive);
+    });
+}
+
+/**
+ * Animates the slider track to the specified slide index using GSAP.
+ * @param {number} index - The index of the slide to move to (0 to 3).
+ */
+function goToSlide(index) {
+    // Ensure index wraps around if necessary
+    if (index >= SLIDE_COUNT) {
+        index = 0;
+    } else if (index < 0) {
+        index = SLIDE_COUNT - 1;
+    }
+
+    currentSlide = index;
+
+    // Calculate the translation percentage: Slide 0 is 0%, Slide 1 is -25%, etc.
+    const xPercent = -currentSlide * (100 / SLIDE_COUNT);
+
+    // GSAP animation
+    gsap.to(track, {
+        x: `${xPercent}%`, // Animate the X translation
+        duration: ANIMATION_DURATION,
+        ease: "power2.out"
+    });
+
+    updateTabs();
+    resetAutoScroll();
+}
+
+/**
+ * Resets and restarts the auto-scroll timer.
+ */
+function resetAutoScroll() {
+    clearInterval(autoScrollTimer);
+    autoScrollTimer = setInterval(() => {
+        goToSlide(currentSlide + 1);
+    }, AUTO_SCROLL_INTERVAL);
+}
+
+// --- Initialization ---
+
+// 1. Add click listeners to the navigation tabs
+tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+        // Find the button element, even if the click lands on text inside
+        const targetButton = e.target.closest('.tab-indicator');
+        if (targetButton) {
+            const index = parseInt(targetButton.dataset.slide);
+            goToSlide(index);
+        }
+    });
+});
+
+// 2. Start the slider
+window.onload = function () {
+    // Initialize the first slide state (set currentSlide=0 and update UI)
+    updateTabs();
+    // Start the continuous auto-scroll
+    resetAutoScroll();
+    console.log("GSAP Slider initialized with blurred tabs and auto-scroll started.");
+}
 
 // Run automatically after DOM is ready
 window.addEventListener("DOMContentLoaded", () => {

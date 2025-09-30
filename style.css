@@ -523,15 +523,42 @@ nav.main_nav .nav_links {
 .main_about_middle_center {
     width: 100%;
     height: 32%;
+    max-height: 32%;
     margin-top: 5%;
-    background-color: white;
     border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.193);
     border: 1px solid #eee;
 }
 
 /* slider style for about section */
+#slider-track {
+    display: flex;
+    width: 400%;
+    /* 4 slides * 100% of the viewport width */
+    height: 100%;
+}
+
+/* Each slide should take up exactly 1/4 of the track, or 100% of the visible container */
+.slider-slide {
+    flex: 0 0 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 16px;
+    /* Inner rounding */
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.main_about_slider_box {
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+}
 
 .main_about_middle_bottom {
     width: 203.5%;
