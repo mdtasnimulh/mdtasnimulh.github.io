@@ -152,7 +152,7 @@ nav.main_nav .nav_links {
 }
 
 .hero_box .intro {
-    width: 75%;
+    width: 85%;
     height: 50px;
     display: flex;
     align-items: center;
@@ -171,7 +171,7 @@ nav.main_nav .nav_links {
 }
 
 .hero_box .passion_1 {
-    width: 75%;
+    width: 85%;
     height: 30%;
     position: absolute;
     display: flex;
@@ -192,7 +192,7 @@ nav.main_nav .nav_links {
 }
 
 .hero_box .passion_2 {
-    width: 75%;
+    width: 85%;
     height: 30%;
     position: absolute;
     display: flex;
@@ -236,7 +236,7 @@ nav.main_nav .nav_links {
 /* hero outline text above image */
 
 .hero_box .passion_1_outline {
-    width: 75%;
+    width: 85%;
     height: 30%;
     position: absolute;
     display: flex;
@@ -257,7 +257,7 @@ nav.main_nav .nav_links {
 }
 
 .hero_box .passion_2_outline {
-    width: 75%;
+    width: 85%;
     height: 30%;
     position: absolute;
     display: flex;
@@ -283,7 +283,7 @@ nav.main_nav .nav_links {
 /* Location Row design start from here */
 
 .hero_box .location_row {
-    width: 75%;
+    width: 85%;
     height: 75px;
     display: flex;
     align-items: center;
@@ -314,7 +314,7 @@ nav.main_nav .nav_links {
     justify-content: flex-end;
     position: absolute;
     top: 83%;
-    right: 12.5%;
+    right: 7.5%;
     left: auto;
     transform: none;
 }
@@ -368,9 +368,210 @@ nav.main_nav .nav_links {
 
 .main_about_section {
     width: 100%;
-    height: 90vh;
-    background-color: antiquewhite;
+    height: auto;
 }
+
+.home_about_grid {
+    width: 85%;
+    height: auto;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+.main_about_left_top {
+    background-color: rgba(211, 211, 211, 0.308);
+    color: black;
+    justify-content: inherit;
+    background-color: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.who_i_am {
+    font-family: "Bricolage Bold";
+    font-size: 36px;
+    margin: 0%;
+}
+
+/* .main_about_title {
+    font-family: "IBM Plex Bold";
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: -10px;
+    color: rgb(77, 77, 77);
+} */
+
+.main_about_title {
+    font-family: "IBM Plex Bold";
+    font-size: 20px;
+    margin-bottom: 7px;
+    color: rgb(44, 44, 44);
+}
+
+.main_about_description {
+    font-family: "IBM Plex Regular";
+    text-align: justify;
+    font-size: 18px;
+    line-height: 1.4;
+    color: rgb(100, 100, 100);
+}
+
+.main_about_middle_top {
+    height: 33%;
+    border-radius: 24px;
+}
+
+/* --- Tweet Card Container --- */
+.tweet-card {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+/* --- Header Section (Profile Info and Logo) --- */
+.tweet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.names {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-name {
+    font-weight: bold;
+    font-size: 15px;
+    color: #0f1419;
+    line-height: 1.2;
+}
+
+.handle {
+    font-size: 15px;
+    color: #536471;
+    line-height: 1.2;
+}
+
+/* Twitter Logo Placeholder (Mimics the blue icon) */
+.twitter-logo-placeholder {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* --- Content Section --- */
+.tweet-content p {
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #0f1419;
+    margin: 16px 0;
+    margin-top: 15px;
+}
+
+.mention {
+    color: #1DA1F2;
+    text-decoration: none;
+    margin-right: 4px;
+}
+
+.tweet-footer {
+    padding-top: 17px;
+}
+
+.read-more-button {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: white;
+    color: #0f1419;
+    border: 1px solid #cfd9de;
+    border-radius: 9999px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.15s;
+}
+
+.read-more-button:hover {
+    background-color: #141414;
+    color: white;
+}
+
+.arrow {
+    margin-left: 8px;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.main-about-right-top {
+    width: 100%;
+    height: 66%;
+    background-color: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+/* Smooth slide down */
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth slide up */
+@keyframes slideUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.dropdown-slide-down {
+    animation: slideDown 0.3s ease-out forwards;
+}
+
+.dropdown-slide-up {
+    animation: slideUp 0.2s ease-in forwards;
+}
+
 
 .main_skill_section {
     width: 100%;

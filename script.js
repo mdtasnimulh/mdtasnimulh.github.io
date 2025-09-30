@@ -118,7 +118,71 @@ function animateCursor() {
     })
 }
 
+function codeSnippetDropdown() {
+    const button = document.getElementById('dropdownButton');
+    const menu = document.getElementById('dropdownMenu');
+    const buttonText = document.getElementById('buttonText');
+
+    let isOpen = false;
+
+    button.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        if (!isOpen) {
+            menu.classList.remove('hidden', 'dropdown-slide-up');
+            menu.classList.add('dropdown-slide-down');
+            isOpen = true;
+        } else {
+            menu.classList.remove('dropdown-slide-down');
+            menu.classList.add('dropdown-slide-up');
+            setTimeout(() => menu.classList.add('hidden'), 200);
+            isOpen = false;
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!button.contains(event.target) && !menu.contains(event.target)) {
+            if (isOpen) {
+                menu.classList.remove('dropdown-slide-down');
+                menu.classList.add('dropdown-slide-up');
+                setTimeout(() => menu.classList.add('hidden'), 200);
+                isOpen = false;
+            }
+        }
+    });
+
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            buttonText.innerText = item.innerText;
+
+            menu.classList.remove('dropdown-slide-down');
+            menu.classList.add('dropdown-slide-up');
+            setTimeout(() => menu.classList.add('hidden'), 200);
+            isOpen = false;
+        });
+    });
+}
+
+function codeSnippetAnimation() {
+    const codeLines = document.querySelectorAll('.bg-gray-900 p');
+
+    gsap.from(codeLines, {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        stagger: 0.1, // Delay between each line's animation
+        ease: "power2.out",
+        onStart: () => {
+            // Ensure the code block is visible before animation starts
+            document.querySelector('.bg-gray-900').style.opacity = '1';
+        }
+    });
+}
+
 navlinksAnimation();
 colorChangeHeroText();
 heroImageAnimation();
 animateCursor();
+codeSnippetDropdown()
+codeSnippetAnimation();
