@@ -61,6 +61,7 @@ function heroImageAnimation() {
 
 function animateCursor() {
     var main = document.querySelector("#main");
+    var tabContainer = document.querySelector("#tabs-container");
     var cursor = document.querySelector("#cursor");
 
     main.addEventListener("mousemove", function (dets) {
@@ -101,21 +102,21 @@ function animateCursor() {
                 duration: 0.3
             });
         }
+    });
 
-        main.addEventListener("click", function () {
-            let ripple = document.createElement("div");
-            ripple.classList.add("ripple");
-            cursor.appendChild(ripple);
+    main.addEventListener("click", function () {
+        let ripple = document.createElement("div");
+        ripple.classList.add("ripple");
+        cursor.appendChild(ripple);
 
-            gsap.fromTo(ripple,
-                { scale: 1, opacity: 1 },
-                {
-                    scale: 2, opacity: 0, duration: 0.6, ease: "power2.out",
-                    onComplete: () => ripple.remove()
-                }
-            );
-        });
-    })
+        gsap.fromTo(ripple,
+            { scale: 1, opacity: 1 },
+            {
+                scale: 2, opacity: 0, duration: 0.6, ease: "power2.out",
+                onComplete: () => ripple.remove()
+            }
+        );
+    });
 }
 
 function codeSnippetDropdown() {
@@ -218,7 +219,7 @@ function codeSnippetAnimationForBlameButton() {
     });
 }
 
-// slider for about section with tab buttons
+// Configuration
 const SLIDE_COUNT = 4;
 const AUTO_SCROLL_INTERVAL = 4000; // 4 seconds
 const ANIMATION_DURATION = 0.8; // GSAP animation duration in seconds
@@ -226,33 +227,64 @@ const ANIMATION_DURATION = 0.8; // GSAP animation duration in seconds
 // DOM elements
 const track = document.getElementById('slider-track');
 const tabs = document.querySelectorAll('.tab-indicator');
+const tabControls = document.getElementById('tab-controls');
+const sliderBg = document.getElementById('tab-slider-bg');
 
 let currentSlide = 0;
 let autoScrollTimer;
+let tabPositions = []; // To store pre-calculated {x, width} for smooth animation
 
 /**
- * Updates the UI to reflect the current active slide (blurred tab).
+ * Calculates the position and width of each tab relative to its parent container.
+ * This is essential for the smooth sliding background effect.
+ */
+function initializeTabSlider() {
+    // Must wait for DOM elements to fully render for accurate measurements
+    const controlsRect = tabControls.getBoundingClientRect();
+
+    // The buttons are direct children of #tab-controls
+    tabs.forEach((tab, index) => {
+        const rect = tab.getBoundingClientRect();
+
+        // Calculate the relative X position: tab.left - controls.left
+        // The value '4' compensates for the initial 'top-1 left-1' (4px) offset of the sliderBg
+        // We use the first button's position as a baseline reference.
+        const x = rect.left - controlsRect.left;
+
+        tabPositions.push({
+            x: x,
+            width: rect.width
+        });
+    });
+
+    // The sliderBg is positioned with top-1 left-1 (4px offset)
+    if (tabPositions.length > 0) {
+        // Set initial state for the slider background
+        gsap.set(sliderBg, {
+            x: tabPositions[0].x - 4, // Initial position adjustment for left-1 (4px)
+            width: tabPositions[0].width
+        });
+    }
+}
+
+/**
+ * Updates the UI to reflect the current active slide (controls text color).
  */
 function updateTabs() {
     tabs.forEach((tab, index) => {
         const isActive = index === currentSlide;
 
-        // Inactive styles (Default blurred look)
-        tab.classList.toggle('bg-white/30', !isActive);
-        tab.classList.toggle('text-gray-800', !isActive);
-        tab.classList.toggle('border-white/50', !isActive);
-        tab.classList.toggle('shadow-none', !isActive);
+        // Inactive tabs: white text
+        tab.classList.toggle('text-white/80', !isActive);
+        tab.classList.toggle('hover:text-white', !isActive);
 
-        // Active styles (More opaque background, primary text color, shadow, and specific border)
-        tab.classList.toggle('bg-white/90', isActive);
-        tab.classList.toggle('text-blue-700', isActive);
-        tab.classList.toggle('border-blue-400', isActive);
-        tab.classList.toggle('shadow-xl', isActive);
+        // Active tab: black text (over white slider)
+        tab.classList.toggle('text-black', isActive);
     });
 }
 
 /**
- * Animates the slider track to the specified slide index using GSAP.
+ * Animates the slider track and the tab background to the specified slide index using GSAP.
  * @param {number} index - The index of the slide to move to (0 to 3).
  */
 function goToSlide(index) {
@@ -265,13 +297,22 @@ function goToSlide(index) {
 
     currentSlide = index;
 
-    // Calculate the translation percentage: Slide 0 is 0%, Slide 1 is -25%, etc.
+    // --- 1. Image Track Animation ---
     const xPercent = -currentSlide * (100 / SLIDE_COUNT);
-
-    // GSAP animation
     gsap.to(track, {
-        x: `${xPercent}%`, // Animate the X translation
+        x: `${xPercent}%`,
         duration: ANIMATION_DURATION,
+        ease: "power2.out"
+    });
+
+    // --- 2. Tab Slider Background Animation (Sliding effect) ---
+    const target = tabPositions[currentSlide];
+
+    // Animate the X position and width of the sliding background
+    gsap.to(sliderBg, {
+        x: target.x - 4, // 4px offset for the parent's p-1 (4px)
+        width: target.width,
+        duration: ANIMATION_DURATION * 0.7, // Slightly faster tab animation for responsiveness
         ease: "power2.out"
     });
 
@@ -291,25 +332,24 @@ function resetAutoScroll() {
 
 // --- Initialization ---
 
-// 1. Add click listeners to the navigation tabs
-tabs.forEach(tab => {
-    tab.addEventListener('click', (e) => {
-        // Find the button element, even if the click lands on text inside
-        const targetButton = e.target.closest('.tab-indicator');
-        if (targetButton) {
-            const index = parseInt(targetButton.dataset.slide);
-            goToSlide(index);
-        }
-    });
-});
-
-// 2. Start the slider
 window.onload = function () {
-    // Initialize the first slide state (set currentSlide=0 and update UI)
-    updateTabs();
-    // Start the continuous auto-scroll
-    resetAutoScroll();
-    console.log("GSAP Slider initialized with blurred tabs and auto-scroll started.");
+    // 1. Calculate and store tab positions before starting any animation
+    initializeTabSlider();
+
+    // 2. Add click listeners to the navigation tabs
+    tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            const targetButton = e.target.closest('.tab-indicator');
+            if (targetButton) {
+                const index = parseInt(targetButton.dataset.slide);
+                goToSlide(index);
+            }
+        });
+    });
+
+    // 3. Start the slider at slide 0 and kick off auto-scroll
+    goToSlide(0);
+    console.log("GSAP Slider initialized with sliding tab background.");
 }
 
 // Run automatically after DOM is ready

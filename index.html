@@ -211,36 +211,41 @@
                                 <div id="slider-track">
                                     <div class="slider-slide bg-blue-500"
                                         style="background-image: url('https://placehold.co/350x350/2563EB/ffffff?text=Scene+1'); background-size: cover;">
-                                        <span class="p-4 bg-black bg-opacity-30 rounded-lg">Content One</span>
+                                        <span class="p-2 text-lg bg-black bg-opacity-30 rounded-lg">Content One</span>
                                     </div>
 
                                     <div class="slider-slide bg-green-500"
                                         style="background-image: url('https://placehold.co/350x350/059669/ffffff?text=Scene+2'); background-size: cover;">
-                                        <span class="p-4 bg-black bg-opacity-30 rounded-lg">Content Two</span>
+                                        <span class="p-2 text-lg bg-black bg-opacity-30 rounded-lg">Content Two</span>
                                     </div>
 
                                     <div class="slider-slide bg-red-500"
                                         style="background-image: url('https://placehold.co/350x350/DC2626/ffffff?text=Scene+3'); background-size: cover;">
-                                        <span class="p-4 bg-black bg-opacity-30 rounded-lg">Content Three</span>
+                                        <span class="p-2 text-lg bg-black bg-opacity-30 rounded-lg">Content Three</span>
                                     </div>
 
                                     <div class="slider-slide bg-purple-500"
                                         style="background-image: url('https://placehold.co/350x350/9333EA/ffffff?text=Scene+4'); background-size: cover;">
-                                        <span class="p-4 bg-black bg-opacity-30 rounded-lg">Content Four</span>
+                                        <span class="p-2 text-lg bg-black bg-opacity-30 rounded-lg">Content Four</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div id="tabs-container"
-                                class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 px-6">
-                                <button data-slide="0"
-                                    class="tab-indicator px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 border border-white/50 bg-white/30 backdrop-blur-md text-gray-800 hover:bg-white/50">One</button>
-                                <button data-slide="1"
-                                    class="tab-indicator px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 border border-white/50 bg-white/30 backdrop-blur-md text-gray-800 hover:bg-white/50">Two</button>
-                                <button data-slide="2"
-                                    class="tab-indicator px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 border border-white/50 bg-white/30 backdrop-blur-md text-gray-800 hover:bg-white/50">Three</button>
-                                <button data-slide="3"
-                                    class="tab-indicator px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 border border-white/50 bg-white/30 backdrop-blur-md text-gray-800 hover:bg-white/50">Four</button>
+                            <div id="tabs-container" class="absolute bottom-4 left-0 right-0 flex justify-center">
+                                <div id="tab-controls"
+                                    class="px-3 py-2 rounded-full bg-black/20 backdrop-blur-lg flex space-x-1 shadow-xl border border-white/30 relative">
+                                    <div id="tab-slider-bg"
+                                        class="absolute top-2 left-1 h-[calc(100%-16px)] bg-white rounded-full shadow-md">
+                                    </div>
+                                    <button data-slide="0"
+                                        class="tab-indicator px-3 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 z-10 relative text-black">One</button>
+                                    <button data-slide="1"
+                                        class="tab-indicator px-3 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 z-10 relative text-white/80 hover:text-white">Two</button>
+                                    <button data-slide="2"
+                                        class="tab-indicator px-3 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 z-10 relative text-white/80 hover:text-white">Three</button>
+                                    <button data-slide="3"
+                                        class="tab-indicator px-3 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 z-10 relative text-white/80 hover:text-white">Four</button>
+                                </div>
                             </div>
 
                         </div>

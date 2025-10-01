@@ -530,7 +530,6 @@ nav.main_nav .nav_links {
     border: 1px solid #eee;
 }
 
-/* slider style for about section */
 #slider-track {
     display: flex;
     width: 400%;
@@ -538,7 +537,6 @@ nav.main_nav .nav_links {
     height: 100%;
 }
 
-/* Each slide should take up exactly 1/4 of the track, or 100% of the visible container */
 .slider-slide {
     flex: 0 0 25%;
     height: 100%;
@@ -558,6 +556,11 @@ nav.main_nav .nav_links {
     width: 100%;
     height: 100%;
     border-radius: 24px;
+}
+
+/* Prevent transition interference during GSAP animation */
+#tab-slider-bg {
+    transition: none !important;
 }
 
 .main_about_middle_bottom {
