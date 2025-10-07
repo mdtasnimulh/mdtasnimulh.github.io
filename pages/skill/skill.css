@@ -160,20 +160,26 @@ section {
     line-height: 1;
 }
 
-.hero .copy-container {
+.programming .copy-container {
     background: #fe6d38;
 }
 
-.cta .copy-container {
+.frontend .copy-container {
     background-color: #c6fe69;
 }
 
-.outro .copy-container {
+.database .copy-container {
     background-color: #7a78ff;
 }
 
-.about .copy-container,
-.features .copy-container {
+.others .copy-container {
+    background-color: #fbf47a;
+}
+
+.programming-details .copy-container,
+.database-details .copy-container,
+.others-details .copy-container,
+.frontend-details .copy-container {
     border: 0.15rem dashed rgb(60, 60, 60);
 }
 
@@ -231,22 +237,64 @@ section {
     z-index: -1;
 }
 
-.anime-text .word span.keyword.vibrant::before,
-.anime-text .word span.keyword.shape::before,
-.anime-text .word span.keyword.interactive::before {
+.anime-text .word span.keyword.dart::before,
+.anime-text .word span.keyword.xml::before,
+.anime-text .word span.keyword.database::before,
+.anime-text .word span.keyword.sql::before,
+.anime-text .word span.keyword.figma::before,
+.anime-text .word span.keyword.flutter::before {
     background-color: #7a78ff;
 }
 
-.anime-text .word span.keyword.living::before,
-.anime-text .word span.keyword.expression::before,
-.anime-text .word span.keyword.storytelling::before {
+.anime-text .word span.keyword.kotlin::before,
+.anime-text .word span.keyword.realtime::before,
+.anime-text .word span.keyword.html::before,
+.anime-text .word span.keyword.adobe::before,
+.anime-text .word span.keyword.illustrator::before,
+.anime-text .word span.keyword.sqlite::before,
+.anime-text .word span.keyword.react::before {
     background-color: #fe6d38;
 }
 
-.anime-text .word span.keyword.clarity::before,
-.anime-text .word span.keyword.intuitive::before,
-.anime-text .word span.keyword.vision::before {
+.anime-text .word span.keyword.python::before,
+.anime-text .word span.keyword.tailwind::before,
+.anime-text .word span.keyword.room::before,
+.anime-text .word span.keyword.native::before {
     background-color: #c6fe69;
+}
+
+.anime-text .word span.keyword.jetpack::before,
+.anime-text .word span.keyword.cmp::before,
+.anime-text .word span.keyword.android::before,
+.anime-text .word span.keyword.studio::before,
+.anime-text .word span.keyword.excel::before,
+.anime-text .word span.keyword.sqldelight::before,
+.anime-text .word span.keyword.compose::before {
+    background-color: #0ccd59;
+}
+
+.anime-text .word span.keyword.multiplatform::before,
+.anime-text .word span.keyword.css::before,
+.anime-text .word span.keyword.authentication::before,
+.anime-text .word span.keyword.firebase::before,
+.anime-text .word span.keyword.vs::before,
+.anime-text .word span.keyword.code::before,
+.anime-text .word span.keyword.kmp::before {
+    background-color: #3c7bf7;
+}
+
+.anime-text .word span.keyword.vision::before,
+.anime-text .word span.keyword.javascript::before,
+.anime-text .word span.keyword.storytelling::before,
+.anime-text .word span.keyword.firestore::before,
+.anime-text .word span.keyword.wordd::before,
+.anime-text .word span.keyword.powerpoint::before,
+.anime-text .word span.keyword.interactive::before {
+    background-color: #4787ac;
+}
+
+.anime-text .word span.keyword.xcode::before {
+    background-color: #f9478b;
 }
 
 .anime-text .word,

@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "storytelling",
         "interactive",
         "vision",
+        "kotlin", "dart", "python", "react", "native", "flutter", "xml", "jetpack", "compose",
+        "multiplatform", "kmp", "(cmp)", "html", "css", "javascript", "tailwind",
+        "sql", "sqlite", "room", "sqldelight", "firebase", "firestore", "authentication", "realtime", "database",
+        "figma", "adobe", "illustrator", "android", "studio", "vs", "code", "xcode", "wordd", "excel", "powerpoint"
     ];
 
     animeTextParagraphs.forEach((paragraph) => {
