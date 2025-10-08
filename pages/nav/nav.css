@@ -162,7 +162,7 @@ nav.main_nav .nav_links {
         transform: scale(1);
     }
 } */
-.main-nav {
+.main_nav {
     width: 60%;
     height: 65px;
     background-color: #fffbf7;
@@ -210,14 +210,14 @@ nav.main_nav .nav_links {
     font-size: 24px;
 }
 
-.main-nav .nav-content .nav-items a {
+.main_nav .nav-content .nav-items a {
     margin: auto 7px;
     padding: 5px 15px;
     border-radius: 24px;
     transition: all 0.5s ease;
 }
 
-.main-nav .nav-content .nav-items a.active {
+.main_nav .nav-content .nav-items a.active {
     background-color: rgba(36, 36, 36, 0.767);
     color: #fffbf7;
     padding: 5px 15px;
@@ -225,12 +225,12 @@ nav.main_nav .nav_links {
     border-radius: 24px;
 }
 
-.main-nav .nav-content .nav-items a:hover {
+.main_nav .nav-content .nav-items a:hover {
     background-color: rgba(36, 36, 36, 0.767);
     color: #fffbf7;
 }
 
-.main-nav .hello-me {
+.main_nav .hello-me {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,12 +243,12 @@ nav.main_nav .nav_links {
     margin-right: 20px;
 }
 
-.main-nav .hello-me:hover {
+.main_nav .hello-me:hover {
     border-radius: 7px;
     animation: roundedBorders 0.4s ease;
 }
 
-.main-nav .hello-me a {
+.main_nav .hello-me a {
     text-decoration: none;
     font-family: "Oswald";
     font-weight: 700;

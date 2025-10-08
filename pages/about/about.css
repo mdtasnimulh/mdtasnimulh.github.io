@@ -1,10 +1,11 @@
 body {
-    background-color: #fff6ec;
+    background-color: #ebffe6b9;
 }
 
 .home_about_grid {
     width: 96.5%;
-    margin: 5% auto 0 auto;
+    margin: 0 auto 0 auto;
+    margin-top: 100px;
 }
 
 .main_about_left_top {
@@ -105,9 +106,9 @@ body {
 .read-more-button {
     width: 100%;
     padding: 12px 15px;
-    background-color: white;
+    background-color: #fffbf7;
     color: #0f1419;
-    border: 1px solid #cfd9de;
+    border: 1px solid #c6fe69;
     border-radius: 9999px;
     font-size: 15px;
     font-weight: bold;
@@ -116,17 +117,24 @@ body {
     justify-content: center;
     align-items: center;
     transition: background-color 0.15s;
+    transition: all 0.4s ease;
 }
 
 .read-more-button:hover {
-    background-color: #141414;
-    color: white;
+    background-color: #c6fe69;
+    border: 1px solid #141414;
+    color: #141414;
 }
 
 .arrow {
     margin-left: 8px;
     font-size: 18px;
     line-height: 1;
+}
+
+#dropdownMenu {
+    z-index: 999;
+    background-color: white;
 }
 
 #slider-track {
@@ -196,12 +204,52 @@ body {
     transition: all 0.2s;
 }
 
+.send-message-twitter,
+.send-message-email {
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b82f6;
+    transition: all 0.4s ease;
+}
+
+.send-message-twitter:hover,
+.send-message-email:hover {
+    background-color: #c6fe69;
+}
+
+.send-message-twitter img,
+.send-message-email img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.4s;
+}
+
+.send-message-twitter:hover img,
+.send-message-email:hover img {
+    filter: brightness(0) saturate(100%) invert(38%) sepia(92%) saturate(2841%) hue-rotate(203deg) brightness(95%) contrast(94%);
+}
+
 .send-icon-area.active {
     background-color: #3b82f6;
+    transition: all 0.4s ease;
+}
+
+.send-icon-area:hover {
+    background-color: #c6fe69;
 }
 
 .send-icon-area img {
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+    filter: brightness(0) invert(1);
+    transition: filter 0.4s;
+}
+
+.send-icon-area:hover img {
+    filter: brightness(0) saturate(100%) invert(38%) sepia(92%) saturate(2841%) hue-rotate(203deg) brightness(95%) contrast(94%);
+}
+
+.send-message-twitter {
+    margin-left: 4px;
 }
 
 @keyframes slideDown {
