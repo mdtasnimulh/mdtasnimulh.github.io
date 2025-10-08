@@ -1,6 +1,10 @@
+body {
+    background-color: #fff6ec;
+}
+
 .home_about_grid {
     width: 96.5%;
-    margin: 0 auto 0 auto;
+    margin: 5% auto 0 auto;
 }
 
 .main_about_left_top {
