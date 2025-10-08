@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, SplitText);
 
     const lenis = new Lenis();
     lenis.on('scroll', ScrollTrigger.update);
@@ -13,19 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const wordHighlightBgColor = "110, 110, 110";
 
     const keywords = [
-        "vibrant",
-        "living",
-        "clarity",
-        "expression",
-        "shape",
-        "intuitive",
-        "storytelling",
-        "interactive",
-        "vision",
-        "kotlin", "dart", "python", "react", "native", "flutter", "xml", "jetpack", "compose",
-        "multiplatform", "kmp", "(cmp)", "html", "css", "javascript", "tailwind",
-        "sql", "sqlite", "room", "sqldelight", "firebase", "firestore", "authentication", "realtime", "database",
-        "figma", "adobe", "illustrator", "android", "studio", "vs", "code", "xcode", "wordd", "excel", "powerpoint"
+        "vibrant", "living", "clarity", "expression", "shape", "intuitive",
+        "storytelling", "interactive", "vision", "kotlin", "dart", "python",
+        "react", "native", "flutter", "xml", "jetpack", "compose", "multiplatform",
+        "kmp", "(cmp)", "html", "css", "javascript", "tailwind", "sql", "sqlite",
+        "room", "sqldelight", "firebase", "firestore", "authentication", "realtime",
+        "database", "figma", "adobe", "illustrator", "android", "studio", "vs",
+        "code", "xcode", "wordd", "excel", "powerpoint"
     ];
 
     animeTextParagraphs.forEach((paragraph) => {
@@ -64,9 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pinSpacing: true,
             onUpdate: (self) => {
                 const progress = self.progress;
-                const words = Array.from(
-                    container.querySelectorAll(".anime-text .word")
-                );
+                const words = Array.from(container.querySelectorAll(".anime-text .word"));
                 const totalWords = words.length;
                 words.forEach((word, index) => {
                     const wordText = word.querySelector("span");
@@ -211,9 +203,80 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function animateHeadingText() {
+        const sectionSelectors = [".programming", ".frontend", ".database", ".others"];
+
+        sectionSelectors.forEach((selector) => {
+            const section = document.querySelector(selector);
+            const title = section?.querySelector(".copy-container h1");
+            if (!title) return;
+
+            let split = new SplitText(title, { type: "chars, words" });
+            let chars = split.chars;
+
+            gsap.set(chars, { y: 120, opacity: 0 });
+
+            const safeTo = (targets, vars) => {
+                gsap.killTweensOf(targets);
+                return gsap.to(targets, { ...vars, overwrite: "auto" });
+            };
+
+            const animateIn = () =>
+                safeTo(chars, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: "power4.out",
+                    stagger: 0.03,
+                });
+
+            const animateOutUp = () =>
+                safeTo(chars, {
+                    y: -120,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power3.in",
+                    stagger: { each: 0.02, from: "end" },
+                });
+
+            const animateOutDown = () =>
+                safeTo(chars, {
+                    y: 120,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power3.in",
+                    stagger: { each: 0.02, from: "start" },
+                });
+
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top 80%",
+                end: "bottom 20%",
+                onEnter: animateIn,
+                onLeave: animateOutUp,
+                onEnterBack: animateIn,
+                onLeaveBack: animateOutDown,
+                fastScrollEnd: true,
+            });
+
+            let resizeTimer;
+            window.addEventListener("resize", () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (split && typeof split.revert === "function") split.revert();
+                    split = new SplitText(title, { type: "chars, words" });
+                    chars = split.chars;
+                    gsap.set(chars, { y: 120, opacity: 0 });
+                    ScrollTrigger.refresh();
+                }, 120);
+            });
+        });
+    };
+
     document.querySelector(".nav-logo").addEventListener("click", function () {
         window.open("http://github.com/mdtasnimulh", "_blank")
     })
 
     animateCursor();
+    animateHeadingText();
 });

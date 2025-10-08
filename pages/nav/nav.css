@@ -59,6 +59,11 @@
     display: flexbox;
 }
 
+::selection {
+    background: #c6fe69;
+    color: #141414;
+}
+
 #cursor {
     width: 30px;
     height: 30px;
