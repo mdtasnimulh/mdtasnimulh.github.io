@@ -53,6 +53,11 @@
     src: url("/assets/Oswald-VariableFont_wght.ttf");
 }
 
+@font-face {
+    font-family: "Grandstander";
+    src: url("/assets/Grandstander.ttf");
+}
+
 * {
     margin: 0;
     padding: 0;
