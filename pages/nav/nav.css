@@ -186,6 +186,7 @@ nav.main_nav .nav_links {
     left: 50%;
     transform: translateX(-50%);
     margin: 0 auto;
+    transition: all 0.3s ease;
     /* box-shadow: 0 2px 6px #98ff7e67; */
 }
 
@@ -263,4 +264,9 @@ nav.main_nav .nav_links {
     font-family: "Oswald";
     font-weight: 700;
     font-size: 18px;
+}
+
+.hide-nav {
+    transform: translate(-50%, -100%);
+    top: 0px;
 }

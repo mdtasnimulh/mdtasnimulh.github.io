@@ -85,6 +85,19 @@
 //     });
 // }
 
+let lastScrollTop = 0;
+const navBar = document.querySelector(".main_nav");
+
+window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    if (currentScroll > lastScrollTop) {
+        navBar.classList.add("hide-nav");
+    } else {
+        navBar.classList.remove("hide-nav");
+    }
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+});
+
 document.querySelector(".logo").addEventListener("click", function () {
     window.open("http://github.com/mdtasnimulh", "_blank")
 })
