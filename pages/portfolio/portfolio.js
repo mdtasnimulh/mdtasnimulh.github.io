@@ -63,6 +63,27 @@ const PROJECTS = [
         ],
         tech: ["Kotlin", "Jetpack Compose", "Multi-module", "DDD", "Hilt", "ExoPlayer"],
         images: placeholderShots("Quran App", 8)
+    },
+    {
+        id: "nid-sdk",
+        name: "NID eKYC SDK",
+        kind: "Identity Verification SDK \u00b7 Android",
+        tagline: "A drop-in SDK that verifies who your customers are.",
+        description: [
+            "An enterprise eKYC SDK I develop at Commlink. Banks and telecom companies add it to their own Android apps to verify customers digitally: scan the National ID card, read it with OCR, take a selfie and confirm the person is real and present.",
+            "Partners integrate it with a small client-facing API that offers two modes: a quick ID scan only, or the full verification journey. The SDK handles the camera, the checks, the forms and the error cases, and matches each partner's branding."
+        ],
+        features: [
+            "NID card scanning with OCR",
+            "Selfie capture with liveness detection and face anti-spoofing",
+            "Dynamic forms and file upload driven by the server",
+            "English and Bangla language switching",
+            "Partner-specific theming",
+            "Encrypted on-device storage and resumable journeys",
+            "Clear error handling across every step"
+        ],
+        tech: ["Java", "Android", "ML Kit", "TensorFlow Lite", "CameraX", "Tink", "Material Design"],
+        images: placeholderShots("NID eKYC SDK", 8)
     }
 ];
 
