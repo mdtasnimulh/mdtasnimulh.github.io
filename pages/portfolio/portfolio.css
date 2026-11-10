@@ -82,17 +82,22 @@ h1 {
     font-family: "Grandstander";
     font-weight: 800;
     width: 75%;
+    font-size: clamp(2.75rem, 11vw, 12rem);
+    line-height: 0.9;
+    text-transform: uppercase;
     overflow-wrap: break-word;
     color: var(--base-300);
 }
 
 .hero_kicker {
     color: var(--muted);
+    font-size: clamp(1rem, 1.6vw, 1.5rem);
 }
 
 .hero_hint {
     position: absolute;
     bottom: 2rem;
+    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
     color: var(--muted);
 }
 
@@ -154,6 +159,9 @@ h1 {
 
 .project_title {
     font-family: "Grandstander";
+    font-weight: 800;
+    line-height: 0.9;
+    text-transform: uppercase;
     font-size: clamp(3.25rem, 13vw, 13rem);
     color: var(--base-300);
     overflow-wrap: anywhere;
@@ -250,13 +258,12 @@ h1 {
 }
 
 /* ---------- Screenshot gallery ---------- */
+/* Swipe gallery: phones & tablets only (desktop uses the card stacks below) */
 .gallery {
+    display: none;
     position: relative;
     width: 100%;
-    height: 100vh;
-    height: 100svh;
-    padding: 5.5rem 0 2rem;
-    display: flex;
+    padding: 1rem 0 3.5rem;
     flex-direction: column;
     overflow: hidden;
 }
@@ -341,6 +348,127 @@ h1 {
 .shot figcaption {
     color: var(--muted);
     text-align: center;
+}
+
+/* ---------- Desktop card stack: 3 screens per row, pinned, cards slide in ---------- */
+.stack {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    padding: 1rem;
+    overflow: hidden;
+    display: flex;
+    gap: 1rem;
+}
+
+.team-member {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed var(--line);
+    border-radius: 1.5rem;
+    will-change: transform;
+    transform: translateY(125%);
+}
+
+.team-member:nth-child(1) {
+    z-index: 2;
+}
+
+.team-member:nth-child(2) {
+    z-index: 1;
+}
+
+.team-member:nth-child(3) {
+    z-index: 0;
+}
+
+.team-member-name-initial {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.team-member-name-initial h1 {
+    font-family: "Grandstander";
+    font-weight: 800;
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--base-300);
+    font-size: clamp(7rem, 20vw, 17rem);
+    will-change: transform;
+    transform: scale(0);
+}
+
+.team-member-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    padding: clamp(1rem, 2vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.8rem, 2vh, 1.5rem);
+    background-color: var(--base-200);
+    border-radius: 1.5rem;
+    cursor: pointer;
+    will-change: transform;
+}
+
+.team-member:nth-child(1) .team-member-card {
+    transform: translate(300%, -50%) scale(0.75) rotate(20deg);
+}
+
+.team-member:nth-child(2) .team-member-card {
+    transform: translate(200%, -50%) scale(0.75) rotate(20deg);
+}
+
+.team-member:nth-child(3) .team-member-card {
+    transform: translate(100%, -50%) scale(0.75) rotate(20deg);
+}
+
+.team-member-img {
+    height: min(64svh, 640px);
+    max-width: 100%;
+    aspect-ratio: 9 / 19.5;
+    flex-shrink: 0;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    background: #d9dccf;
+}
+
+.team-member-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.8rem;
+}
+
+.team-member-info p {
+    font-family: "JetBrains Mono";
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--base-100);
+    line-height: 1;
+}
+
+.team-member-info h1 {
+    font-family: "Grandstander";
+    font-weight: 800;
+    line-height: 0.95;
+    text-transform: uppercase;
+    font-size: clamp(1.5rem, 3vw, 3.5rem);
+    overflow-wrap: break-word;
+    color: var(--base-300);
 }
 
 /* ---------- Lightbox ---------- */
@@ -435,8 +563,11 @@ h1 {
     }
 
     .gallery {
-        height: auto;
-        padding: 1rem 0 3.5rem;
+        display: flex;
+    }
+
+    .stack {
+        display: none;
     }
 
     .g_head {

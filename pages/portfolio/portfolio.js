@@ -20,7 +20,7 @@ const PLACEHOLDERS = [
 function placeholderShots(name, count) {
     return Array.from({ length: count }, (_, i) => ({
         src: PLACEHOLDERS[i % PLACEHOLDERS.length],
-        caption: name + " · screen " + String(i + 1).padStart(2, "0")
+        caption: "Screen " + String(i + 1).padStart(2, "0")
     }));
 }
 
@@ -97,6 +97,42 @@ function pad(n) {
     return String(n).padStart(2, "0");
 }
 
+/* Split screenshots into rows of up to 3, as evenly as possible (8 -> 3,3,2) */
+function chunkEvenly(list) {
+    const groups = Math.ceil(list.length / 3);
+    const base = Math.floor(list.length / groups);
+    let extra = list.length % groups;
+    const out = [];
+    let at = 0;
+    for (let g = 0; g < groups; g++) {
+        const size = base + (extra > 0 ? 1 : 0);
+        if (extra > 0) extra--;
+        out.push(list.slice(at, at + size).map((img, k) => ({ img, index: at + k })));
+        at += size;
+    }
+    return out;
+}
+
+function renderStacks(p) {
+    return chunkEvenly(p.images).map((group) => `
+            <section class="stack">
+                ${group.map(({ img, index }) => `
+                <div class="team-member">
+                    <div class="team-member-name-initial"><h1>${pad(index + 1)}</h1></div>
+                    <div class="team-member-card" data-index="${index}" tabindex="0" role="button"
+                        aria-label="View ${esc(p.name)} ${esc(img.caption)} larger">
+                        <div class="team-member-img">
+                            <img src="${esc(img.src)}" alt="${esc(p.name)} - ${esc(img.caption)}" loading="lazy" draggable="false">
+                        </div>
+                        <div class="team-member-info">
+                            <p>( ${esc(p.name)} )</p>
+                            <h1>${esc(img.caption)}</h1>
+                        </div>
+                    </div>
+                </div>`).join("")}
+            </section>`).join("");
+}
+
 function renderProjects() {
     const root = document.getElementById("projects");
     root.innerHTML = PROJECTS.map((p, i) => {
@@ -125,6 +161,8 @@ function renderProjects() {
                     </div>
                 </div>
             </div>
+
+            ${renderStacks(p, i)}
 
             <div class="gallery" data-project="${i}">
                 <div class="g_head">
@@ -235,12 +273,13 @@ document.addEventListener("DOMContentLoaded", () => {
         () => lenis && lenis.start()
     );
 
-    document.querySelectorAll(".gallery").forEach((gal) => {
-        const items = PROJECTS[Number(gal.dataset.project)].images;
-        gal.querySelectorAll(".shot_frame").forEach((frame) => {
-            const go = () => lightbox.open(items, Number(frame.dataset.index));
-            frame.addEventListener("click", go);
-            frame.addEventListener("keydown", (e) => {
+    document.querySelectorAll(".project").forEach((proj, pi) => {
+        const p = PROJECTS[pi];
+        const items = p.images.map((im) => ({ src: im.src, caption: p.name + " \u00b7 " + im.caption }));
+        proj.querySelectorAll(".shot_frame, .team-member-card").forEach((el) => {
+            const go = () => lightbox.open(items, Number(el.dataset.index));
+            el.addEventListener("click", go);
+            el.addEventListener("keydown", (e) => {
                 if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
             });
         });
@@ -303,42 +342,92 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ---- Gallery: pinned, scrolls sideways as you scroll down (swipeable row on small screens) ----
+    // ---- Desktop: each row of 3 screens is pinned; columns rise, then the cards slide in tilted ----
+    function setupStack(stack) {
+        const members = gsap.utils.toArray(".team-member", stack);
+        const cards = gsap.utils.toArray(".team-member-card", stack);
+        const initials = gsap.utils.toArray(".team-member-name-initial h1", stack);
+
+        const entrance = ScrollTrigger.create({
+            trigger: stack,
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                members.forEach((member, index) => {
+                    const entranceDelay = 0.15;
+                    const entranceDuration = 0.7;
+                    const entranceStart = index * entranceDelay;
+                    const entranceEnd = entranceStart + entranceDuration;
+                    const initial = initials[index];
+
+                    if (progress >= entranceStart && progress <= entranceEnd) {
+                        const t = (progress - entranceStart) / entranceDuration;
+                        gsap.set(member, { y: `${125 - t * 125}%` });
+                        const initialDelay = 0.4;
+                        gsap.set(initial, { scale: Math.max(0, (t - initialDelay) / (1 - initialDelay)) });
+                    } else if (progress > entranceEnd) {
+                        gsap.set(member, { y: "0%" });
+                        gsap.set(initial, { scale: 1 });
+                    } else {
+                        gsap.set(member, { y: "125%" });
+                        gsap.set(initial, { scale: 0 });
+                    }
+                });
+            }
+        });
+
+        const slideIn = ScrollTrigger.create({
+            trigger: stack,
+            start: "top top",
+            end: () => `+=${window.innerHeight * 2.4}`,
+            invalidateOnRefresh: true,
+            pin: true,
+            scrub: 1,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                cards.forEach((card, index) => {
+                    const slideInStagger = 0.075;
+                    const xRotationDuration = 0.4;
+                    const xRotationStart = index * slideInStagger;
+                    const xRotationEnd = xRotationStart + xRotationDuration;
+
+                    if (progress >= xRotationStart && progress <= xRotationEnd) {
+                        const t = (progress - xRotationStart) / xRotationDuration;
+                        const initialX = 300 - index * 100;
+                        gsap.set(card, { x: `${initialX + t * (-50 - initialX)}%`, rotation: 20 - t * 20 });
+                    } else if (progress > xRotationEnd) {
+                        gsap.set(card, { x: "-50%", rotation: 0 });
+                    }
+
+                    const cardScaleStagger = 0.12;
+                    const cardScaleStart = 0.4 + index * cardScaleStagger;
+                    const cardScaleEnd = 1;
+
+                    if (progress >= cardScaleStart && progress <= cardScaleEnd) {
+                        const t = (progress - cardScaleStart) / (cardScaleEnd - cardScaleStart);
+                        gsap.set(card, { scale: 0.75 + t * 0.25 });
+                    } else if (progress > cardScaleEnd) {
+                        gsap.set(card, { scale: 1 });
+                    }
+                });
+            }
+        });
+
+        return () => {
+            entrance.kill();
+            slideIn.kill();
+            gsap.set([...members, ...cards, ...initials], { clearProps: "all" });
+        };
+    }
+
     function galleries() {
         const mm = gsap.matchMedia();
 
         mm.add("(min-width: 1001px)", () => {
-            document.querySelectorAll(".gallery").forEach((gal) => {
-                const track = gal.querySelector(".g_track");
-                const bar = gal.querySelector(".g_bar i");
-                const countEl = gal.querySelector(".g_count b");
-                const total = gal.querySelectorAll(".shot").length;
-                const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-                let shown = 1;
-
-                gsap.to(track, {
-                    x: () => -distance(),
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: gal,
-                        start: "top top",
-                        end: () => "+=" + distance(),
-                        pin: true,
-                        scrub: 1,
-                        invalidateOnRefresh: true,
-                        onUpdate: (self) => {
-                            gsap.set(bar, { scaleX: self.progress });
-                            const n = Math.min(total, Math.round(self.progress * (total - 1)) + 1);
-                            if (n !== shown) { shown = n; countEl.textContent = pad(n); }
-                        }
-                    }
-                });
-
-                gsap.from(gal.querySelectorAll(".shot"), {
-                    y: 80, autoAlpha: 0, duration: 0.8, stagger: 0.08, ease: "power3.out",
-                    scrollTrigger: { trigger: gal, start: "top 80%", once: true }
-                });
-            });
+            const cleanups = [...document.querySelectorAll(".stack")].map(setupStack);
+            return () => cleanups.forEach((fn) => fn());
         });
 
         // On small screens the counter follows the native swipe position
