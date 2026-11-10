@@ -1,4 +1,6 @@
 function animateCursor() {
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return; // no custom cursor on touch screens
+
     var main = document.querySelector("#main");
     var cursor = document.querySelector("#cursor");
 

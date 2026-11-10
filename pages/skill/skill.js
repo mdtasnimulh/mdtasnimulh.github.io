@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger, SplitText);
+    ScrollTrigger.config({ ignoreMobileResize: true }); // phone address bar showing/hiding must not restart the animation
 
     const lenis = new Lenis();
     lenis.on('scroll', ScrollTrigger.update);
@@ -47,6 +48,47 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // The paragraphs are pinned inside one screen-high box, so the text has to fit that box.
+    // Start from the CSS size for the current breakpoint and shrink until nothing is cut off.
+    function fitAnimeText() {
+        document.querySelectorAll(".anime-text-container").forEach((container) => {
+            const box = container.querySelector(".copy-container");
+            const wrap = container.querySelector(".anime-text");
+            const paragraph = wrap && wrap.querySelector("p");
+            if (!box || !paragraph) return;
+
+            paragraph.style.fontSize = "";
+            const available = box.clientHeight - 24;
+            let size = parseFloat(getComputedStyle(paragraph).fontSize);
+
+            while (size > 13 && wrap.offsetHeight > available) {
+                size -= 1;
+                paragraph.style.fontSize = size + "px";
+            }
+        });
+    }
+
+    fitAnimeText();
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+            fitAnimeText();
+            ScrollTrigger.refresh();
+        });
+    }
+
+    let fitTimer;
+    let lastFitWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(() => {
+            if (window.innerWidth !== lastFitWidth) {
+                lastFitWidth = window.innerWidth;
+                fitAnimeText();
+            }
+            ScrollTrigger.refresh();
+        }, 150);
+    });
+
     const animeTextContainers = document.querySelectorAll(".anime-text-container");
 
     animeTextContainers.forEach((container) => {
@@ -54,7 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
             trigger: container,
             pin: container,
             start: "top top",
-            end: `+=${window.innerHeight * 4}`,
+            end: () => `+=${window.innerHeight * 4}`,
+            invalidateOnRefresh: true,
             pinSpacing: true,
             onUpdate: (self) => {
                 const progress = self.progress;
@@ -145,6 +188,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function animateCursor() {
+        if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return; // no custom cursor on touch screens
+
         var main = document.querySelector("#main");
         var cursor = document.querySelector("#cursor");
 
@@ -272,10 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     };
-
-    document.querySelector(".nav-logo").addEventListener("click", function () {
-        window.open("http://github.com/mdtasnimulh", "_blank")
-    })
 
     animateCursor();
     animateHeadingText();

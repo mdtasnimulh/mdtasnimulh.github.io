@@ -1,11 +1,13 @@
 function animateCursor() {
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return; // no custom cursor on touch screens
+
     var main = document.querySelector("#main");
     var cursor = document.querySelector("#cursor");
 
     main.addEventListener("mousemove", function (dets) {
         gsap.to(cursor, {
             x: dets.x,
-            y: dets.y - 100,
+            y: dets.y,
             xPercent: -50,
             yPercent: -50,
             duration: 0.4,
@@ -171,6 +173,7 @@ let autoScrollTimer;
 let tabPositions = [];
 
 function initializeTabSlider() {
+    tabPositions = [];
     const controlsRect = tabControls.getBoundingClientRect();
 
     tabs.forEach((tab, index) => {
@@ -185,8 +188,8 @@ function initializeTabSlider() {
 
     if (tabPositions.length > 0) {
         gsap.set(sliderBg, {
-            x: tabPositions[0].x - 4,
-            width: tabPositions[0].width
+            x: tabPositions[currentSlide].x - 4,
+            width: tabPositions[currentSlide].width
         });
     }
 }
@@ -253,6 +256,13 @@ window.onload = function () {
     goToSlide(0);
     console.log("GSAP Slider initialized with sliding tab background.");
 }
+
+// Re-measure the tab pill after a resize / rotation, otherwise it ends up under the wrong tab
+let tabResizeTimer;
+window.addEventListener("resize", () => {
+    clearTimeout(tabResizeTimer);
+    tabResizeTimer = setTimeout(initializeTabSlider, 150);
+});
 
 window.addEventListener("DOMContentLoaded", () => {
 

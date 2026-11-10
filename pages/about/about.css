@@ -4,8 +4,10 @@ body {
 
 .home_about_grid {
     width: 96.5%;
+    max-width: 1920px;
     margin: 0 auto 0 auto;
     margin-top: 100px;
+    padding-bottom: 16px;
 }
 
 .main_about_left_top {
@@ -40,6 +42,8 @@ body {
 }
 
 .main_about_middle_top {
+    width: 100%;
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -91,6 +95,7 @@ body {
 }
 
 .tweet-content p {
+    overflow-wrap: anywhere;
     font-size: 20px;
     font-weight: 500;
     line-height: 1.3;
@@ -199,6 +204,7 @@ body {
 }
 
 .imessage-input {
+    min-width: 0;
     background-color: #f3f4f6;
     border: 1px solid #d1d5db;
     transition: all 0.2s;
@@ -282,4 +288,52 @@ body {
 
 .dropdown-slide-up {
     animation: slideUp 0.2s ease-in forwards;
+}
+
+/* On narrow screens the long code listing scrolls inside its own box instead of stretching the card */
+.main_aboout_right_top > .font-mono {
+    max-height: 22rem;
+}
+
+.main_about_middle_bottom,
+.main_about_middle_top {
+    gap: 12px;
+}
+
+/* ------------------------------------------------------------------
+   Phones
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .home_about_grid {
+        width: 94%;
+        margin-top: 84px;
+    }
+
+    .who_i_am {
+        font-size: 26px;
+    }
+
+    .main_about_title {
+        font-size: 18px;
+    }
+
+    .main_about_description {
+        text-align: left;
+        font-size: 16px;
+    }
+
+    .tweet-content p {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 380px) {
+    .main_about_description {
+        font-size: 15px;
+    }
+
+    .names .full-name,
+    .names .handle {
+        font-size: 14px;
+    }
 }

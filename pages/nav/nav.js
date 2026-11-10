@@ -85,22 +85,110 @@
 //     });
 // }
 
-let lastScrollTop = 0;
-const navBar = document.querySelector(".main_nav");
+(function () {
+    const navBar = document.querySelector(".main_nav");
+    if (!navBar) return;
 
-window.addEventListener("scroll", () => {
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentScroll > lastScrollTop) {
-        navBar.classList.add("hide-nav");
-    } else {
-        navBar.classList.remove("hide-nav");
+    const navContent = navBar.querySelector(".nav-content");
+    const desktopLinks = navBar.querySelectorAll(".nav-items a");
+    const emailLink = navBar.querySelector(".hello-me a");
+    const mobileNavQuery = window.matchMedia("(max-width: 1099px)");
+
+    // ---- Mobile / tablet menu, built from the desktop links so they never drift apart ----
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "nav-toggle";
+    toggle.setAttribute("aria-label", "Toggle navigation menu");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", "nav-menu");
+    toggle.innerHTML = '<span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>';
+
+    const menu = document.createElement("nav");
+    menu.className = "nav-menu";
+    menu.id = "nav-menu";
+    menu.setAttribute("aria-label", "Main");
+
+    desktopLinks.forEach(function (link) {
+        const a = document.createElement("a");
+        a.href = link.getAttribute("href");
+        a.textContent = link.textContent.trim();
+        if (link.classList.contains("active")) {
+            a.classList.add("active");
+            a.setAttribute("aria-current", "page");
+        }
+        menu.appendChild(a);
+    });
+
+    if (emailLink) {
+        const a = document.createElement("a");
+        a.href = emailLink.getAttribute("href");
+        a.textContent = emailLink.textContent.trim();
+        a.className = "nav-menu-contact";
+        menu.appendChild(a);
     }
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-});
 
-document.querySelector(".logo").addEventListener("click", function () {
-    window.open("http://github.com/mdtasnimulh", "_blank")
-})
+    if (navContent) navContent.appendChild(toggle);
+    navBar.appendChild(menu);
 
-// animateCursor();
-//navlinksAnimation();
+    function setMenu(open) {
+        navBar.classList.toggle("menu-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        if (open) navBar.classList.remove("hide-nav");
+    }
+
+    function isMenuOpen() {
+        return navBar.classList.contains("menu-open");
+    }
+
+    toggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        setMenu(!isMenuOpen());
+    });
+
+    menu.addEventListener("click", function (e) {
+        if (e.target.closest("a")) setMenu(false);
+    });
+
+    document.addEventListener("click", function (e) {
+        if (isMenuOpen() && !navBar.contains(e.target)) setMenu(false);
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") setMenu(false);
+    });
+
+    mobileNavQuery.addEventListener("change", function (e) {
+        if (!e.matches) setMenu(false);
+    });
+
+    // ---- Hide the bar while scrolling down, show it again on the way up ----
+    let lastScrollTop = 0;
+
+    window.addEventListener("scroll", function () {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (isMenuOpen()) {
+            setMenu(false);
+        } else if (Math.abs(currentScroll - lastScrollTop) > 6) {
+            navBar.classList.toggle("hide-nav", currentScroll > lastScrollTop);
+        }
+
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, { passive: true });
+
+    // ---- Logo opens the GitHub profile (single place, instead of one copy per page) ----
+    const logo = navBar.querySelector(".nav-logo");
+    if (logo) {
+        logo.addEventListener("click", function () {
+            window.open("https://github.com/mdtasnimulh", "_blank", "noopener");
+        });
+    }
+
+    // ---- Custom cursor only appears once a real mouse moves ----
+    const cursor = document.getElementById("cursor");
+    if (cursor) {
+        window.addEventListener("mousemove", function () {
+            cursor.classList.add("is-active");
+        }, { once: true });
+    }
+})();

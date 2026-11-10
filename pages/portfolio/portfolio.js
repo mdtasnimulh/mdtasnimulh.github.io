@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger, SplitText);
+    ScrollTrigger.config({ ignoreMobileResize: true }); // phone address bar showing/hiding must not restart the animation
 
     const lenis = new Lenis();
     lenis.on('scroll', ScrollTrigger.update);
@@ -10,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.ticker.lagSmoothing(0);
 
     function animateCursor() {
+        if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return; // no custom cursor on touch screens
+
         var main = document.querySelector("#main");
         var cursor = document.querySelector("#cursor");
 
@@ -68,10 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    document.querySelector(".nav-logo").addEventListener("click", function () {
-        window.open("http://github.com/mdtasnimulh", "_blank")
-    })
-
     const teamSection = document.querySelector(".team");
     const teamMembers = gsap.utils.toArray(".team-member");
     const teamMemberCards = gsap.utils.toArray(".team-member-card");
@@ -87,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let cardSlideInAnimation2 = null;
 
     function initTeamAnimations() {
-        if (window.innerWidth < 1000) {
+        if (window.innerWidth <= 1000) {
             if (cardPlaceholderEntrance) cardPlaceholderEntrance.kill();
             if (cardSlideInAnimation) cardSlideInAnimation.kill();
 
@@ -146,7 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
         cardSlideInAnimation = ScrollTrigger.create({
             trigger: teamSection,
             start: "top top",
-            end: `+=${window.innerHeight * 3}`,
+            end: () => `+=${window.innerHeight * 3}`,
+            invalidateOnRefresh: true,
             pin: true,
             scrub: 1,
             onUpdate: (self) => {
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     function initTeamAnimations2() {
-        if (window.innerWidth < 1000) {
+        if (window.innerWidth <= 1000) {
             if (cardPlaceholderEntrance2) cardPlaceholderEntrance2.kill();
             if (cardSlideInAnimation2) cardSlideInAnimation2.kill();
 
@@ -253,7 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
         cardSlideInAnimation2 = ScrollTrigger.create({
             trigger: teamSection2,
             start: "top top",
-            end: `+=${window.innerHeight * 3}`,
+            end: () => `+=${window.innerHeight * 3}`,
+            invalidateOnRefresh: true,
             pin: true,
             scrub: 1,
             onUpdate: (self) => {
@@ -301,11 +302,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     let resizeTimer;
+    let lastWidth = window.innerWidth;
     window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            initTeamAnimations();
-            initTeamAnimations2();
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                initTeamAnimations();
+                initTeamAnimations2();
+            }
             ScrollTrigger.refresh();
         }, 250);
     });

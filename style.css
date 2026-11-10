@@ -3,25 +3,32 @@ body {
 }
 
 .hero_box {
+    /* one fluid size drives all the big words: limited by width ("Mobile APP" is ~4.65em wide)
+       and by height, so short landscape screens don't overlap the rows */
+    --hero-fs: clamp(2.75rem, min(16.7vw, 26vh), 17rem);
     width: 100%;
     height: 92vh;
+    height: 92svh;
     position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
 }
 
 .hero_box .intro {
     width: 85%;
-    height: 50px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     font-family: "Oswald";
     font-weight: 400;
-    font-size: 22px;
+    font-size: clamp(0.95rem, 1.6vw, 1.375rem);
     letter-spacing: 1.7px;
     position: absolute;
-    top: 12%;
+    top: max(12%, 78px);
     left: 50%;
     transform: translateX(-50%);
 }
@@ -46,7 +53,8 @@ body {
 .hero_box .passion_1 a {
     font-family: "Oswald";
     font-weight: 900;
-    font-size: 240px;
+    font-size: var(--hero-fs);
+    white-space: nowrap;
     text-decoration: none;
     color: #191919;
     -webkit-text-stroke: 2px #191919;
@@ -68,7 +76,8 @@ body {
 .hero_box .passion_2 a {
     font-family: "Oswald";
     font-weight: 900;
-    font-size: 230px;
+    font-size: calc(var(--hero-fs) * 0.958);
+    white-space: nowrap;
     text-decoration: none;
     color: transparent;
     -webkit-text-stroke: 2px #191919;
@@ -76,7 +85,8 @@ body {
 }
 
 .herobox_image {
-    width: 25%;
+    /* the photo is 791x1049: size it by height and let the width follow, so it is never stretched */
+    width: 28%;
     height: 65%;
     position: absolute;
     top: 15%;
@@ -87,9 +97,18 @@ body {
     justify-content: center;
 }
 
+@supports (aspect-ratio: 1 / 1) {
+    .herobox_image {
+        width: auto;
+        max-width: 90%;
+        aspect-ratio: 791 / 1049;
+    }
+}
+
 .herobox_image img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
     object-position: center;
     position: absolute;
     transition: .2s linear;
@@ -110,7 +129,8 @@ body {
 .hero_box .passion_1_outline a {
     font-family: "Oswald";
     font-weight: 900;
-    font-size: 240px;
+    font-size: var(--hero-fs);
+    white-space: nowrap;
     text-decoration: none;
     color: transparent;
     -webkit-text-stroke: 2px #ebffe6b9;
@@ -134,7 +154,8 @@ body {
 .hero_box .passion_2_outline a {
     font-family: "Oswald";
     font-weight: 900;
-    font-size: 230px;
+    font-size: calc(var(--hero-fs) * 0.958);
+    white-space: nowrap;
     text-decoration: none;
     color: transparent;
     -webkit-text-stroke: 2px #ebffe6b9;
@@ -155,7 +176,7 @@ body {
 
 .location_row .location_name {
     font-family: "Oswald";
-    font-size: 30px;
+    font-size: clamp(1.15rem, 2.1vw, 1.875rem);
     text-align: left;
     letter-spacing: 1.7px;
     color: #191919c3;
@@ -173,6 +194,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 12px;
     position: absolute;
     top: 83%;
     right: 7.5%;
@@ -181,8 +203,8 @@ body {
 }
 
 .hero_box .logo_row .social_logo {
-    width: 50px;
-    height: 50px;
+    width: clamp(34px, 3.5vw, 50px);
+    height: clamp(34px, 3.5vw, 50px);
     opacity: 0.5;
     filter: brightness(0) saturate(100%) invert(9%) sepia(7%) saturate(1898%) hue-rotate(169deg) brightness(93%) contrast(88%);
     transition: all 0.3s ease;
@@ -222,5 +244,160 @@ body {
 
     100% {
         transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ------------------------------------------------------------------
+   Tablet + phone in portrait: tall screen, so the words sit closer
+   together around the photo and the footer rows stack and centre.
+   ------------------------------------------------------------------ */
+@media (orientation: portrait) and (max-width: 1023px) {
+    .hero_box .intro {
+        top: max(11%, 78px);
+    }
+
+    /* "Mobile APP" wraps onto two lines here so it can be much bigger than a single line would allow */
+    .hero_box .passion_1,
+    .hero_box .passion_1_outline {
+        top: 16%;
+        height: 24%;
+    }
+
+    .hero_box .passion_1 a,
+    .hero_box .passion_1_outline a {
+        font-size: min(23vw, 11vh);
+        max-width: 3.6em;
+        white-space: normal;
+        text-align: center;
+        line-height: 0.9;
+    }
+
+    .hero_box .passion_2,
+    .hero_box .passion_2_outline {
+        top: 40%;
+        height: 12%;
+    }
+
+    .hero_box .passion_2 a,
+    .hero_box .passion_2_outline a {
+        font-size: min(20vw, 9.6vh);
+    }
+
+    .herobox_image {
+        top: 35%;
+        height: 38%;
+    }
+
+    .hero_box .location_row {
+        top: 80%;
+        height: 44px;
+        justify-content: center;
+    }
+
+    .location_row .location_name {
+        text-align: center;
+    }
+
+    .hero_box .logo_row {
+        top: 86%;
+        width: 85%;
+        height: 56px;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        justify-content: center;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 1023px) and (max-height: 700px) {
+    .hero_box .intro {
+        font-size: 0.85rem;
+    }
+
+    .hero_box .passion_1,
+    .hero_box .passion_1_outline {
+        top: 21%;
+        height: 22%;
+    }
+
+    .hero_box .passion_1 a,
+    .hero_box .passion_1_outline a {
+        font-size: min(23vw, 9.5vh);
+    }
+
+    .hero_box .passion_2,
+    .hero_box .passion_2_outline {
+        top: 41%;
+        height: 12%;
+    }
+
+    .hero_box .passion_2 a,
+    .hero_box .passion_2_outline a {
+        font-size: min(20vw, 8.5vh);
+    }
+
+    .herobox_image {
+        top: 38%;
+        height: 38%;
+    }
+
+    .hero_box .location_row {
+        top: 78%;
+        height: 36px;
+    }
+
+    .hero_box .logo_row {
+        top: 85%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero_box .logo_row {
+        gap: 10px;
+    }
+
+    .hero_box .passion_1 a,
+    .hero_box .passion_2 a,
+    .hero_box .passion_1_outline a,
+    .hero_box .passion_2_outline a {
+        -webkit-text-stroke-width: 1.5px;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Short landscape screens (phones turned sideways)
+   ------------------------------------------------------------------ */
+@media (max-height: 520px) and (orientation: landscape) {
+    .hero_box .intro {
+        top: 76px;
+        min-height: 28px;
+        font-size: 0.95rem;
+    }
+
+    .hero_box .passion_1,
+    .hero_box .passion_1_outline {
+        top: 26%;
+        height: 28%;
+    }
+
+    .hero_box .passion_2,
+    .hero_box .passion_2_outline {
+        top: 52%;
+        height: 28%;
+    }
+
+    .herobox_image {
+        top: 20%;
+        height: 66%;
+    }
+
+    .hero_box .location_row,
+    .hero_box .logo_row {
+        top: 82%;
+        height: 48px;
+    }
+
+    .location_row .location_name {
+        font-size: 1.1rem;
     }
 }
